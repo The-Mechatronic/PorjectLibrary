@@ -7,6 +7,7 @@ package com.themechatronic.library.service;
 import com.themechatronic.library.entity.Author;
 import com.themechatronic.library.entity.Book;
 import com.themechatronic.library.entity.Editorial;
+import com.themechatronic.library.exception.MyException;
 import com.themechatronic.library.repository.AuthorRepository;
 import com.themechatronic.library.repository.BookRepository;
 import com.themechatronic.library.repository.EditorialRepository;
@@ -48,7 +49,9 @@ public class BookService {
      */
     @Transactional
     public void createBook(Long isbn, String title, Integer copies, 
-            String idAuthor, String idEditorial){
+            String idAuthor, String idEditorial) throws MyException{
+        
+        validate(isbn, title, idEditorial, idAuthor, copies);
         
         Author author = authorRepository.findById(idAuthor).get();
         Editorial editorial = editorialRepository.findById(idEditorial).get();
@@ -83,7 +86,13 @@ public class BookService {
      */
     @Transactional
     public void modifyBook(Long isbn, String title, String idEditorial, String
-            idAuthor, Integer copies){
+            idAuthor, Integer copies)throws MyException{
+        
+        /** 
+        /* Se llama al método validate, para verificar que no hayan valores nulos
+        /*  o vacios
+        */
+        validate(isbn, title, idEditorial, idAuthor, copies);
         
         /**
          * Optional hace referencia a una variable que puede tener un valor 
@@ -116,4 +125,33 @@ public class BookService {
             book.setCopies(copies);
         }        
     }
+    private void validate(Long isbn, String title, String idEditorial, 
+            String idAuthor, Integer copies) throws MyException{
+        
+        //Se lanzan excepciónes personalizadas        
+        if (isbn == null){
+            
+            throw new MyException("El isbn no puede se un valor nulo");
+        }
+        
+        if (title .isEmpty() || title == null){
+            
+            throw new MyException("El Título no puede ser nulo ni estar vacio");
+        }
+        if (copies == null){
+            
+            throw new MyException("Los ejemplares o copias no puede se un "
+                    + "valor nulo");
+        }
+        if (idAuthor .isEmpty() || idAuthor == null){
+            
+            throw new MyException("El Id del autor no puede ser nulo ni estar "
+                    + "vacio");
+        }
+          if (idEditorial .isEmpty() || idEditorial == null){
+            
+            throw new MyException("El Id de la editorial no puede ser nulo ni "
+                    + "estar vacio");
+        }
+}
 }
