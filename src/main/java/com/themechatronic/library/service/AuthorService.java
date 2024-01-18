@@ -5,6 +5,7 @@
 package com.themechatronic.library.service;
 
 import com.themechatronic.library.entity.Author;
+import com.themechatronic.library.exception.MyException;
 import com.themechatronic.library.repository.AuthorRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -28,13 +29,19 @@ public class AuthorService {
      * @param name 
      */
     @Transactional
-    private void createAuthor(String name){
+    public void createAuthor(String name)throws MyException{
         
         Author author = new Author();
         
         author.setName(name);
         
         authorRepository.save(author);
+    }
+    
+    private void validar(String nombre) throws MyException{    
+        if (nombre.isEmpty() || nombre == null){            
+            throw new MyException("El nombre no puede ser nulo ni estar vacio");
+        }
     }
     
     /**

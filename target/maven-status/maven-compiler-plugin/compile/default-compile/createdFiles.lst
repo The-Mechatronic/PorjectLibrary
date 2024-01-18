@@ -1,2 +1,16 @@
+com\themechatronic\library\service\AuthorService.class
+com\themechatronic\library\entity\Editorial$EditorialBuilder.class
+com\themechatronic\library\exception\MyException.class
+com\themechatronic\library\entity\Author.class
+com\themechatronic\library\repository\BookRepository.class
 com\themechatronic\library\LibraryApplication.class
+com\themechatronic\library\entity\Book$BookBuilder.class
+com\themechatronic\library\controller\PortalController.class
+com\themechatronic\library\entity\Author$AuthorBuilder.class
+com\themechatronic\library\service\BookService.class
+com\themechatronic\library\entity\Editorial.class
+com\themechatronic\library\controller\AuthorController.class
+com\themechatronic\library\repository\AuthorRepository.class
+com\themechatronic\library\service\EditorialService.class
 com\themechatronic\library\entity\Book.class
+com\themechatronic\library\repository\EditorialRepository.class
