@@ -17,11 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author EdwarVelasquez
  */
+@Service
 public class BookService {
     /**
      * @Autowired esto se conoce como inyección de dependencias, lo que hace 
@@ -124,6 +126,11 @@ public class BookService {
             book.setEditorial(editorial);
             book.setCopies(copies);
         }        
+    }
+    
+    @org.springframework.transaction.annotation.Transactional(readOnly = true)
+    public Book getOne(Long isbn){
+       return bookRepository.getOne(isbn);
     }
     private void validate(Long isbn, String title, String idEditorial, 
             String idAuthor, Integer copies) throws MyException{
