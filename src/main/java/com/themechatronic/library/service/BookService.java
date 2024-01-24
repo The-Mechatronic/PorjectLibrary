@@ -17,11 +17,13 @@ import java.util.List;
 import java.util.Optional;
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  *
  * @author EdwarVelasquez
  */
+@Service
 public class BookService {
     /**
      * @Autowired esto se conoce como inyección de dependencias, lo que hace 
@@ -140,7 +142,7 @@ public class BookService {
         }
         if (copies == null){
             
-            throw new MyException("Los ejemplares o copias no puede se un "
+            throw new MyException("Los ejemplares o copias no puede ser un "
                     + "valor nulo");
         }
         if (idAuthor .isEmpty() || idAuthor == null){

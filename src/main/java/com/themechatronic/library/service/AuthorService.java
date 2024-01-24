@@ -9,6 +9,8 @@ import com.themechatronic.library.exception.MyException;
 import com.themechatronic.library.repository.AuthorRepository;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,6 +33,8 @@ public class AuthorService {
     @Transactional
     public void createAuthor(String name)throws MyException{
         
+        validate(name);
+        
         Author author = new Author();
         
         author.setName(name);
@@ -38,16 +42,7 @@ public class AuthorService {
         authorRepository.save(author);
     }
     
-    private void validar(String nombre) throws MyException{    
-        if (nombre.isEmpty() || nombre == null){            
-            throw new MyException("El nombre no puede ser nulo ni estar vacio");
-        }
-    }
-    
-    /**
-     * Método para listar los autores
-     * @return 
-     */
+    @Transactional(readOnly = true)
     public List<Author> listAuthors(){
     
         List<Author> authors = new ArrayList();
@@ -55,5 +50,46 @@ public class AuthorService {
         authors = authorRepository.findAll();
 
         return authors;
+    }   
+    
+    /**
+     * Método para listar los autores
+     * @return 
+     */    
+     @Transactional
+    public void modifyAuthor(String name, String id) throws MyException{
+        
+        validate(name);
+        
+        Optional<Author> respuesta = authorRepository.findById(id);
+
+        if (respuesta.isPresent()) {
+            Author author = respuesta.get();
+            
+            author.setName(name);
+
+            authorRepository.save(author);
+
+        }
     }
+    
+    @Transactional(readOnly = true)
+    public Author getOne(String id){
+        return authorRepository.getOne(id);
+    }
+    
+    @Transactional
+    public void eliminar(String id) throws MyException{
+        
+        Author author = authorRepository.getById(id);
+        
+        authorRepository.delete(author);
+    }
+    
+     private void validate(String name) throws MyException {
+        
+        if (name.isEmpty() || name == null) {
+            throw new MyException("El nombre no puede ser nulo o estar vacio");
+        }
+    }    
 }
