@@ -4,10 +4,13 @@
  */
 package com.themechatronic.library.controller;
 
+import com.themechatronic.library.entity.Author;
+import com.themechatronic.library.entity.Editorial;
 import com.themechatronic.library.exception.MyException;
 import com.themechatronic.library.service.AuthorService;
 import com.themechatronic.library.service.BookService;
 import com.themechatronic.library.service.EditorialService;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +41,14 @@ public class BookController {
     
     
     @GetMapping("/register")  //localhost:8080/book/register
-    public String register(){
+    public String register(ModelMap modelo){
+        
+        List<Author> authors = authorService.listAuthors();
+        List<Editorial> editorials = editorialService.listEditorial();
+        
+        modelo.addAttribute("autores", authors);
+        modelo.addAttribute("editoriales", editorials);
+        
     
     return "book_form.html";
     }    
@@ -68,12 +78,17 @@ public class BookController {
             modelo.put("exito","El libro fue cargado correctamente");
             
         } catch (MyException ex) {
-            Logger.getLogger(BookController.class.getName()).log(Level.SEVERE, 
-                    null, ex);
+            
+            List<Author> authors = authorService.listAuthors();
+            List<Editorial> editorials = editorialService.listEditorial();
+
+            modelo.addAttribute("autores", authors);
+            modelo.addAttribute("editoriales", editorials);
             
             modelo.put("error", ex.getMessage());
             
-            return "book_form.html";    //Se vuelve a cargar el formulario
+            //Se vuelve a cargar el formulario
+            return "book_form.html";    
         }
         
         return "index.html";

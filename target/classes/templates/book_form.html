@@ -126,16 +126,16 @@ Esta línea de código es para que el HTML reconozca los tags de Thymeleaf
 
                         <option>Seleccionar Autor</option>
 
-                        <option th:each="author : ${autores}"
+                        <option th:each="author : ${authors}"
                                 th:value="${author.id}"
-                                th:text="${author.nombre}"
+                                th:text="${author.name}"
                                 />
                     </select>
                 </div>
                 <div class="form-group my-3">
                     <select name="idEditorial">  
                         <option>Seleccionar Editorial</option>
-                        <option th:each="editorial : ${editoriales}"
+                        <option th:each="editorial : ${editorials}"
                                 th:value="${editorial.id}" 
                                 th:text="${editorial.nombre}"
                                 />
